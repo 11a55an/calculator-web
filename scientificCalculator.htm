@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator by Hassan Tahir</title>
+    <style>
+        body {
+            background-color: #4e8ac8;
+        }
+
+        .flex-container {
+            width: 230px;
+            background-color: #edf4ff;
+            display: flex;
+            border-radius: 5px;
+            flex-direction: column;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-right: 5px;
+            padding-left: 5px;
+        }
+
+        #scientific {
+            position: fixed;
+            display: none;
+            z-index: 9999;
+        }
+
+        #standard {
+            position: fixed;
+            z-index: 1;
+        }
+
+        #btn-container {
+            margin-bottom: -0.5px;
+            margin-left: 3px;
+        }
+
+        #btn-container button {
+            background-color: #cce5fb;
+            font-size: 14px;
+            border: 0px;
+            color: black;
+            border-radius: 3px 5px 0px 0px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            width: 113px;
+            height: 25px;
+            margin: 1px;
+        }
+
+        .flex-container input {
+            padding: 15px;
+            border-radius: 5px;
+            border: 0px;
+            margin: 5px;
+            background-color: #cce6ff;
+            width: 82%;
+        }
+
+        .flex-container button {
+            background-color: #cce5fb;
+            font-size: 14px;
+            border: 0px;
+            color: black;
+            border-radius: 3px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            width: 40px;
+            height: 35px;
+            margin: 1px;
+        }
+
+        .flex-container .enter {
+            background-color: #4e8ac8;
+            border: 0px;
+            color: #fff;
+            border-radius: 3px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            width: 40px;
+            font-style: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="btn-container">
+        <button id="simplebtn" onclick="off()">Standard</button>
+        <button id="scientificbtn" onclick="on()">Scientific</button>
+    </div>
+    <div class="flex-container" id="standard">
+        <input type="text" id="input-box">
+        <div class="row2">
+            <button id="num7" onclick="numbtn(7)">7</button>
+            <button id="num8" onclick="numbtn(8)">8</button>
+            <button id="num9" onclick="numbtn(9)">9</button>
+            <button id="mod" onclick="assign_operator('%')">%</button>
+            <button id="power" onclick="assign_operator('^')">^</button>
+        </div>
+        <div class="row3">
+            <button id="num4" onclick="numbtn(4)">4</button>
+            <button id="num5" onclick="numbtn(5)">5</button>
+            <button id="num6" onclick="numbtn(6)">6</button>
+            <button id="multiply" onclick="assign_operator('*')">*</button>
+            <button id="divide" onclick="assign_operator('/')">/</button>
+        </div>
+        <div class="row4">
+            <button id="num1" onclick="numbtn(1)">1</button>
+            <button id="num2" onclick="numbtn(2)">2</button>
+            <button id="num3" onclick="numbtn(3)">3</button>
+            <button id="plus" onclick="assign_operator('+')">+</button>
+            <button id="minus" onclick="assign_operator('-')">-</button>
+        </div>
+        <div class="row5">
+            <button id="dot" onclick="numbtn('.')">.</button>
+            <button id="num0" onclick="numbtn(0)">0</button>
+            <button id="sign" onclick="numsignbtn()">+/-</button>
+            <button id="clear" onclick="clearbtn()">C</button>
+            <button class="enter" onclick="equal()">=</button>
+        </div>
+    </div>
+    <div class="flex-container" id="scientific">
+        <input type="text" id="input-box2">
+        <div class="row2">
+            <button id="num7" onclick="numbtn(7)">7</button>
+            <button id="num8" onclick="numbtn(8)">8</button>
+            <button id="num9" onclick="numbtn(9)">9</button>
+            <button id="mod" onclick="inputBox2.value = Math.log(inputBox2.value)">log</button>
+            <button id="power" onclick="inputBox2.value = Math.sqrt(inputBox2.value)">√</button>
+        </div>
+        <div class="row3">
+            <button id="num4" onclick="numbtn(4)">4</button>
+            <button id="num5" onclick="numbtn(5)">5</button>
+            <button id="num6" onclick="numbtn(6)">6</button>
+            <button id="multiply" onclick="inputBox2.value = Math.sin(inputBox2.value)">sin</button>
+            <button id="divide" onclick="inputBox2.value = Math.cos(inputBox2.value)">cos</button>
+        </div>
+        <div class="row4">
+            <button id="num1" onclick="numbtn(1)">1</button>
+            <button id="num2" onclick="numbtn(2)">2</button>
+            <button id="num3" onclick="numbtn(3)">3</button>
+            <button id="plus" onclick="inputBox2.value = Math.tan(inputBox2.value)">tan</button>
+            <button id="minus" onclick="inputBox2.value = Math.exp(inputBox2.value)">e</button>
+        </div>
+        <div class="row5">
+            <button id="dot" onclick="numbtn('.')">.</button>
+            <button id="num0" onclick="numbtn(0)">0</button>
+            <button id="sign" onclick="numsignbtn()">+/-</button>
+            <button id="clear" onclick="clearbtn()">C</button>
+            <button class="enter" onclick="equal()">=</button>
+        </div>
+    </div>
+    <script>
+        var val1 = 0;
+        var val2 = 0;
+        var op = "";
+        scientific = document.getElementById("scientific");
+        inputBox = document.getElementById("input-box");
+        inputBox2 = document.getElementById("input-box2");
+        function numbtn(num) {
+            inputBox.value += num;
+            inputBox2.value += num;
+        }
+        function numsignbtn() {
+            var prevStr = inputBox.value;
+            var prevStr2 = inputBox2.value;
+            inputBox.value = "-" + prevStr;
+            inputBox2.value += "-" + prevStr2;
+        }
+        function clearbtn() {
+            inputBox.value = "";
+            inputBox2.value = "";
+        }
+        function assign_operator(operator) {
+            val1 = Number(inputBox.value);
+            op = operator;
+            inputBox.value = "";
+        }
+        function equal() {
+            val2 = Number(inputBox.value);
+            if (op == "+") {
+                result = val1 + val2;
+                inputBox.value = result;
+            }
+            else if (op == "-") {
+                result = val1 - val2;
+                inputBox.value = result;
+            }
+            else if (op == "*") {
+                result = val1 * val2;
+                inputBox.value = result;
+            }
+            else if (op == "/") {
+                result = val1 / val2;
+                inputBox.value = result;
+            }
+            else if (op == "%") {
+                result = val1 % val2;
+                inputBox.value = result;
+            }
+            else if (op == "^") {
+                result = Math.pow(val1, val2);
+                inputBox.value = result;
+            }
+        }
+        function on() {
+            scientific.style.display = "block";
+        }
+        function off() {
+            scientific.style.display = "none";
+        }
+    </script>
+</body>
+
+</html>
